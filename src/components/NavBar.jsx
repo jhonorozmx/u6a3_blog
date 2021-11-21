@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { selectIsAuthenticated } from "../features/authentication/authSelectors";
+import { isAuth, logOut } from "../features/authentication/authThunks";
 
 const NavBar = () => {
+  // Routing
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Redux State
+  const dispatch = useDispatch();
+  const authorized = useSelector(selectIsAuthenticated);
+
+  useEffect(() => {
+    dispatch(isAuth());
+  }, [dispatch]);
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logOut());
+    navigate("/");
+  };
 
   return (
     <div className="top-row">
@@ -38,19 +56,12 @@ const NavBar = () => {
         </div>
 
         <div className="menu-item">
-          {localStorage.getItem("authorized") === "true" ? (
+          {authorized ? (
             <>
-              <button
-                className={`menu-btn sign-out`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  localStorage.setItem("authorized", "false");
-                  navigate("/");
-                }}
-              >
+              <button className={`menu-btn`} onClick={handleLogout}>
                 <i className="fas fa-sign-out-alt"></i>
               </button>
-              <span className="tooltip">Sign Out</span>
+              <span className="tooltip">Log Out</span>
             </>
           ) : (
             <>
