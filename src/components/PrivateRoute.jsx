@@ -1,14 +1,14 @@
-import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Navigate, useLocation } from "react-router-dom";
+import { useLocation, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated } from "../features/authentication/authSelectors";
 
 export const ProtectedRoute = ({ children }) => {
-  const [isAuth] = useState(localStorage.getItem("authorized") === "true");
-
+  const authorized = useSelector(selectIsAuthenticated);
   const location = useLocation();
-  const previousPath = location.state?.from || "/posts";
+  const previousPath = location.pathname;
 
-  return !isAuth ? (
+  return !authorized ? (
     <Navigate to="/login" state={{ from: previousPath }} />
   ) : (
     children

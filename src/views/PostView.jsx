@@ -1,52 +1,44 @@
-import React from "react";
-import Axios from "axios";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectPostsLoading,
+  selectPostsError,
+  selectPostById,
+} from "../features/posts/postsSelector";
+import { getPostById } from "../features/posts/postsThunk";
+//import { checkOrder } from "../features/posts/postsSlice";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import Post from "../components/Post";
 
 const PostView = () => {
-  const [post, setPost] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
+  // Routing
   const navigate = useNavigate();
   const { postId } = useParams();
-  const location = useLocation();
-  const from = location.state?.from || "/posts";
+
+  // Redux State
+  const dispatch = useDispatch();
+  const loading = useSelector(selectPostsLoading);
+  const error = useSelector(selectPostsError);
+  const { hasError, errorMessage } = error;
+  const post = useSelector(selectPostById);
 
   useEffect(() => {
-    let isMounted = true;
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const { data } = await Axios.get(
-          `https://jsonplaceholder.typicode.com/posts/${postId}`
-        );
-        if (!isMounted) return null;
-        setPost(data);
-        setLoading(false);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-    fetchData();
-
-    return () => (isMounted = false);
-  }, [postId]);
+    dispatch(getPostById(+postId));
+  }, [dispatch, postId, post]);
 
   return loading ? (
     <LoadingBox />
-  ) : error ? (
-    <MessageBox message="error" />
+  ) : hasError ? (
+    <MessageBox message={errorMessage} />
   ) : (
     <div className="mid-row">
       <Post postData={post} />
       <button
         className="nav-btn"
         onClick={() => {
-          navigate(from);
+          navigate("/posts");
         }}
       >
         Go back to posts

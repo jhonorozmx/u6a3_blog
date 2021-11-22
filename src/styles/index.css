@@ -95,7 +95,7 @@
   .landingpage-welcome {
     display: block;
     text-align: center;
-    font-size: clamp(1.25rem, 10vw + 1rem, 2rem);
+    font-size: clamp(1rem, 10vw + 1rem, 1.5rem);
   }
 }
 .card {
@@ -132,8 +132,7 @@
   text-align: justify;
 }
 
-.login-form {
-  height: 60%;
+form {
   width: 90%;
   max-width: 500px;
   padding: 1rem;
@@ -144,11 +143,11 @@
   color: #f8f8f8;
   border-radius: 10px;
 }
-.login-form h1 {
+form h1 {
   text-align: center;
   font-size: clamp(2rem, 12vw + 1rem, 3rem);
 }
-.login-form div:last-child {
+form div:last-child {
   display: flex;
   height: 100%;
   padding: 1rem;
@@ -160,12 +159,19 @@ label {
   font-size: clamp(1.25rem, 10vw + 1rem, 2rem);
 }
 
-input {
+input,
+textarea {
+  font-family: inherit;
   font-size: clamp(1rem, 10vw + 1rem, 1.5rem);
   width: 100%;
 }
-input:focus {
+input:focus,
+textarea:focus {
   outline: none;
+}
+
+textarea {
+  resize: none;
 }
 
 button {
@@ -225,6 +231,9 @@ button {
   border: 1px solid #918e80;
   background-color: #696765;
   color: #f8f8f8;
+}
+.submit-btn:active {
+  transform: scale(0.98);
 }
 
 @media only screen and (max-width: 767px) {
@@ -296,7 +305,7 @@ main {
 }
 
 .mid-row {
-  padding-top: 2rem;
+  padding: 2rem 0;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -317,18 +326,6 @@ main {
   align-items: center;
   justify-content: center;
   gap: 1rem;
-}
-
-.page-nav {
-  display: flex;
-  justify-content: center;
-  font-size: clamp(1.25rem, 10vw + 1rem, 2rem);
-  font-weight: Bold;
-  margin-top: 2rem;
-}
-.page-nav p {
-  margin: 0 1rem;
-  text-align: center;
 }
 
 .alert {

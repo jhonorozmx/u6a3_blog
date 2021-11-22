@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { isAuth, logIn, logOut } from "./authThunks";
+import { logIn, logOut } from "./authThunks";
 
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
-    isAuthenticated: false,
+    isAuthenticated: JSON.parse(localStorage.getItem("authorized")),
     isLoading: false,
     error: {
       hasError: false,
@@ -22,21 +22,6 @@ export const authSlice = createSlice({
   },
 
   extraReducers: {
-    [isAuth.pending]: (state) => {
-      state.error.hasError = false;
-      state.isLoading = true;
-    },
-
-    [isAuth.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.isAuthenticated = action.payload;
-    },
-
-    [isAuth.rejected]: (state) => {
-      state.error.hasError = true;
-      state.isLoading = false;
-    },
-
     [logIn.pending]: (state) => {
       state.error.hasError = false;
       state.isLoading = true;

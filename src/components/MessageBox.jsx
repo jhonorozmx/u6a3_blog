@@ -22,11 +22,6 @@ function MessageBox({ message }) {
 
 MessageBox.propTypes = {
   message: PropTypes.string.isRequired,
-  close: PropTypes.func,
-};
-
-MessageBox.propTypes = {
-  message: PropTypes.string.isRequired,
 };
 
 export default MessageBox;

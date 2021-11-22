@@ -1,13 +1,22 @@
+import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getPosts } from "./features/posts/postsThunk";
 import LandingPage from "./views/LandingPage";
 import DashBoard from "./views/DashBoard";
 import LoginPage from "./views/LoginPage";
 import PostView from "./views/PostView";
+import CreatePost from "./views/CreatePost";
 import NotFound from "./views/NotFound";
 import { ProtectedRoute } from "./components/PrivateRoute";
-
 import NavBar from "./components/NavBar";
+
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [dispatch]);
+
   return (
     <div className="App">
       <div className="gridcontainer">
@@ -24,6 +33,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <PostView />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/create"
+              element={
+                <ProtectedRoute>
+                  <CreatePost />
                 </ProtectedRoute>
               }
             />

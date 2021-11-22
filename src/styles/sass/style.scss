@@ -54,7 +54,7 @@ main {
 }
 
 .mid-row {
-  padding-top: 2rem;
+  padding: 2rem 0;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -76,18 +76,6 @@ main {
   align-items: center;
   justify-content: center;
   gap: 1rem;
-}
-
-.page-nav {
-  display: flex;
-  justify-content: center;
-  font-size: vars.$fs-m;
-  font-weight: Bold;
-  margin-top: 2rem;
-  & p {
-    margin: 0 1rem;
-    text-align: center;
-  }
 }
 
 .alert {

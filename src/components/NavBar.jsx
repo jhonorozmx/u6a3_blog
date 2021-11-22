@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { selectIsAuthenticated } from "../features/authentication/authSelectors";
-import { isAuth, logOut } from "../features/authentication/authThunks";
+import { logOut } from "../features/authentication/authThunks";
 
 const NavBar = () => {
   // Routing
@@ -12,10 +11,6 @@ const NavBar = () => {
   // Redux State
   const dispatch = useDispatch();
   const authorized = useSelector(selectIsAuthenticated);
-
-  useEffect(() => {
-    dispatch(isAuth());
-  }, [dispatch]);
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -43,7 +38,7 @@ const NavBar = () => {
         <div className="menu-item">
           <button
             className={`menu-btn ${
-              location.pathname === "/posts/" ? "current" : "inactive"
+              location.pathname === "/posts" ? "current" : "inactive"
             }`}
             onClick={(e) => {
               e.preventDefault();
@@ -53,6 +48,21 @@ const NavBar = () => {
             <i className="fas fa-file-alt"></i>
           </button>
           <span className="tooltip">Posts</span>
+        </div>
+
+        <div className="menu-item">
+          <button
+            className={`menu-btn ${
+              location.pathname === "/create" ? "current" : "inactive"
+            }`}
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/create");
+            }}
+          >
+            <i className="fas fa-edit"></i>
+          </button>
+          <span className="tooltip">Create</span>
         </div>
 
         <div className="menu-item">

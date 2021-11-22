@@ -1,25 +1,21 @@
-import React from "react";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectAuthError,
   selectAuthLoading,
 } from "../features/authentication/authSelectors";
-import { logIn } from "../features/authentication/authThunks";
+import { createPost } from "../features/posts/postsThunk";
 import MessageBox from "../components/MessageBox";
 import LoadingBox from "../components/LoadingBox";
 
-const LoginPage = () => {
+const CreatePost = () => {
   // Inner State
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
 
   // Routing
-  const location = useLocation();
-
   const navigate = useNavigate();
-  const from = location.state?.from || "/";
 
   // Redux State
   const dispatch = useDispatch();
@@ -29,10 +25,10 @@ const LoginPage = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    dispatch(logIn({ user: email, pass: password }))
+    dispatch(createPost({ title, body }))
       .unwrap()
       .then(() => {
-        navigate(from, { replace: true });
+        navigate("/posts", { replace: true });
       })
       .catch(() => {
         return;
@@ -43,35 +39,38 @@ const LoginPage = () => {
     <div className="mid-row">
       {loading && <LoadingBox />}
       {hasError && <MessageBox message={errorMessage} />}
-      <form className="login-form" onSubmit={submitHandler}>
-        <h1>Log In</h1>
+      <form onSubmit={submitHandler}>
+        <h1>Create a new post</h1>
         <div>
-          <label htmlFor="email">E-mail</label> <br />
+          <label htmlFor="title">Title</label> <br />
           <input
-            type="email"
-            id="email"
-            placeholder={`e.g. "example@example.com" `}
+            type="text"
+            id="title"
+            placeholder={`e.g. How to use Redux `}
             required
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
 
         <div>
-          <label htmlFor="password">Password</label> <br />
-          <input
-            type="password"
-            id="password"
-            placeholder={`e.g. "password" `}
-            minLength="8"
-            maxLength="25"
+          <label htmlFor="body">Body</label> <br />
+          <textarea
+            name="body"
+            id="body"
+            cols="20"
+            rows="5"
+            minLength="10"
+            maxLength="280"
+            placeholder={`e.g. First, you need to create a store... `}
+            wrap="soft"
             required
-            onChange={(e) => setPassword(e.target.value)}
-          />
+            onChange={(e) => setBody(e.target.value)}
+          ></textarea>
         </div>
 
         <div>
           <button type="submit" className="submit-btn">
-            submit
+            Save
           </button>
         </div>
       </form>
@@ -79,4 +78,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default CreatePost;

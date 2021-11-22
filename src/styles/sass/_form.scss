@@ -1,7 +1,6 @@
 @use "vars";
 
-.login-form {
-  height: 60%;
+form {
   width: 90%;
   max-width: 500px;
   padding: 1rem;
@@ -30,10 +29,17 @@ label {
   font-size: vars.$fs-m;
 }
 
-input {
+input,
+textarea {
+  font-family: inherit;
   font-size: vars.$fs-s;
   width: 100%;
+
   &:focus {
     outline: none;
   }
+}
+
+textarea {
+  resize: none;
 }

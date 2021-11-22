@@ -1,5 +1,5 @@
 import React from "react";
-import blogging from "../assets/images/Blogging-bro.svg";
+import { blogging } from "../assets";
 
 const LandingPage = () => {
   return (
